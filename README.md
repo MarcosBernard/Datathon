@@ -16,7 +16,7 @@ Gracias a las nuevas herramientas como el uso de geolocalizadores, registros dig
 
 ## Descripción del problema
 
-Somos parte de una empresa de logística que trabaja para un portal importante de E-Commerce, y nuestro Team Leader nos da la tarea de implementar un modelo que nos permita predecir si un envío llegará a tiempo o no, según la información contenida en el dataset puesto a disposición para poder prestar atención y mejor seguimiento a aquellos envíos que pueden llegar a dar problemas.
+Somos parte de una empresa de logística que trabaja para un portal importante de E-Commerce, y nuestro Team Leader nos da la tarea de implementar un modelo que nos permita predecir si un envío llegará a tiempo o no, según la información contenida en el dataset puesto a disposición para poder prestar atención y dar un mejor seguimiento a aquellos envíos que pueden llegar a dar problemas.
 
 ## Métrica a utilizar
 
