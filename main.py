@@ -26,4 +26,4 @@ y_pred_test = clf.predict(entrenamiento_test.values) #Predice valores para la su
 
 #Exportamos
 salida = pd.DataFrame(y_pred_test)
-salida.to_csv('MarcosBernard.csv')
+salida.to_csv('MarcosBernard.csv',index=False)
