@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
 from sklearn.metrics import recall_score
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
@@ -14,7 +14,7 @@ X = train_df.iloc[:,:-1]
 Y = train_df['Reached.on.Time_Y.N'].values
 X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.30, random_state=42) 
 
-clf = KNeighborsClassifier(n_neighbors=1)
+clf = SVC(kernel='poly', random_state=42,degree=2,C=200)
 # Entrenamos
 clf.fit(X_train,y_train)
 # Predecimos para el dataset de entrenamiento
