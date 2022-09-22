@@ -1,8 +1,9 @@
 import pandas as pd
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC
 from sklearn.metrics import recall_score
 from sklearn.metrics import accuracy_score
-
+import pandas as pd
+from sklearn.model_selection import train_test_split
 
 #Carga de CSVs
 train_df = pd.read_csv("./Preprocesamiento/train_preproc.csv",sep=',',encoding='UTF-8')
@@ -11,24 +12,36 @@ test_df = pd.read_csv("./Preprocesamiento/test_preproc.csv",sep=',',encoding='UT
 #Escojemos los campos con mayor relevancia para entrenar
 #ver Correlación.ipynb
 
-entrenamiento = train_df.loc[:,['Discount_offered','Weight_in_gms','Prior_purchases']]
+#Warehouse_block	
+# Mode_of_Shipment	
+# Customer_care_calls	
+# Customer_rating	
+# Cost_of_the_Product	
+# Prior_purchases	
+# Product_importance	
+# Gender	
+# Discount_offered	
+# Weight_in_gms
+X = train_df.loc[:,['Warehouse_block','Mode_of_Shipment','Customer_care_calls','Cost_of_the_Product','Prior_purchases','Product_importance','Discount_offered','Weight_in_gms']]
+Y = train_df['Reached.on.Time_Y.N'].values
+#X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.30, random_state=42) 
 
-# Instanciamos un objeto de la clase DecisionTreeClassifier
-clf = DecisionTreeClassifier(max_depth = 3, random_state = 42) 
-
-# Entrenamos el modelo
-clf.fit(entrenamiento.values,train_df['Reached.on.Time_Y.N'].values)
+clf = SVC(kernel='poly', random_state=42,degree=2,C=200)
+# Entrenamos
+#clf.fit(X_train,y_train)
+clf.fit(X,Y)
 # Predecimos para el dataset de entrenamiento
-y_pred = clf.predict(entrenamiento.values)
+#y_pred = clf.predict(X_test)
+y_pred = clf.predict(X)
 # Vemos la sensibilidad o recall.
-print('recall:',recall_score(train_df['Reached.on.Time_Y.N'].values,y_pred))
-print('accuracy:',accuracy_score(train_df['Reached.on.Time_Y.N'].values,y_pred))
-# Predecimos
-entrenamiento_test = test_df.loc[:,['Discount_offered','Weight_in_gms','Prior_purchases']]
-y_pred_test = clf.predict(entrenamiento_test.values) #Predice valores para la subtabla pred_test
-
-
-
+#print('recall:',recall_score(y_test,y_pred))
+print('recall:',recall_score(Y,y_pred))
+# Vemos la precisión.
+#print('accuracy:',accuracy_score(y_test,y_pred))
+print('accuracy:',accuracy_score(Y,y_pred))
+# Predecimos para la data test
+entrenamiento_test = test_df.loc[:,['Warehouse_block','Mode_of_Shipment','Customer_care_calls','Cost_of_the_Product','Prior_purchases','Product_importance','Discount_offered','Weight_in_gms']]
+y_pred_test = clf.predict(entrenamiento_test) #Predice valores para la subtabla pred_test
 #Exportamos
 salida = pd.DataFrame(y_pred_test,columns=['pred'])
 salida.to_csv('MarcosBernard.csv',index=False)
