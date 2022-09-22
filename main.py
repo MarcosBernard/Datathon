@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.svm import SVC
+from sklearn.cluster import KMeans
 from sklearn.metrics import recall_score
 from sklearn.metrics import accuracy_score
 import pandas as pd
@@ -11,6 +11,9 @@ test_df = pd.read_csv("./Preprocesamiento/test_preproc.csv",sep=',',encoding='UT
 
 #Escojemos los campos con mayor relevancia para entrenar
 #ver Correlación.ipynb
+X = train_df.loc[:,['Cost_of_the_Product','Discount_offered']]
+Y = train_df.loc[:,['Reached.on.Time_Y.N']]
+#X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.30, random_state=42) 
 
 #Warehouse_block	
 # Mode_of_Shipment	
@@ -22,14 +25,15 @@ test_df = pd.read_csv("./Preprocesamiento/test_preproc.csv",sep=',',encoding='UT
 # Gender	
 # Discount_offered	
 # Weight_in_gms
+# 
 X = train_df.loc[:,['Warehouse_block','Mode_of_Shipment','Customer_care_calls','Cost_of_the_Product','Prior_purchases','Product_importance','Discount_offered','Weight_in_gms']]
 Y = train_df['Reached.on.Time_Y.N'].values
 #X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.30, random_state=42) 
 
-clf = SVC(kernel='poly', random_state=42,degree=2,C=200)
+clf = KMeans(n_clusters=2, random_state=0,algorithm='lloyd')
 # Entrenamos
 #clf.fit(X_train,y_train)
-clf.fit(X,Y)
+clf.fit(X)
 # Predecimos para el dataset de entrenamiento
 #y_pred = clf.predict(X_test)
 y_pred = clf.predict(X)
